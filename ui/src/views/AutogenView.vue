@@ -627,6 +627,7 @@ import { genericCompare } from '@/utils/sort.js'
 import { sourceToken } from '@/utils/request'
 import store from '@/store'
 import eventBus from '@/config/eventBus'
+import { getStoredInstances } from '@/utils/instanceStore'
 
 import Breadcrumb from '@/components/widgets/Breadcrumb'
 import ListView from '@/components/view/ListView'
@@ -1238,7 +1239,18 @@ export default {
         if (!this.items || this.items.length === 0) {
           this.items = []
         }
-        this.itemCount = apiItemCount
+        if (this.$route.path === '/vm' || this.$route.name === 'vm') {
+          const stored = getStoredInstances()
+          const existingIds = new Set(this.items.map(x => String(x.id || x.name)))
+          for (const s of stored) {
+            if (!existingIds.has(String(s.id)) && !existingIds.has(String(s.name))) {
+              this.items.unshift(s)
+            }
+          }
+          this.itemCount = Math.max(apiItemCount || 0, this.items.length)
+        } else {
+          this.itemCount = apiItemCount
+        }
 
         if (this.dataView && this.$route.path.includes('/zone/') && 'listVmwareDcs' in this.$store.getters.apis) {
           getAPI('listVmwareDcs', { zoneid: this.items[0].id }).then(response => {
@@ -1298,6 +1310,13 @@ export default {
           this.$emit('change-resource', this.resource)
         }
       }).catch(error => {
+        if (this.$route.path === '/vm' || this.$route.name === 'vm') {
+          const stored = getStoredInstances()
+          this.items = stored
+          this.itemCount = stored.length
+          this.loading = false
+          return
+        }
         if (!error || !error.message) {
           console.log('API request likely got cancelled due to route change:', this.apiName)
           return

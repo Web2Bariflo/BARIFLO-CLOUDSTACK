@@ -25,15 +25,17 @@
       @click="onClearNotification">{{ $t('label.clear.notification') }}</a-button>
     <div class="user-layout-container">
       <div class="user-layout-header">
-        <img
-          v-if="$config.banner"
-          :style="{
-            width: $config.theme['@banner-width'],
-            height: $config.theme['@banner-height']
-          }"
-          :src="$config.banner"
-          class="user-layout-logo"
-          alt="logo">
+        <div class="user-layout-brand">
+          <img
+            src="/assets/bariflo_nav_logo.png"
+            class="user-layout-bariflo-logo"
+            alt="Bariflo Logo"
+          />
+          <div class="user-layout-brand-text">
+            <span class="brand-apache">Bariflo</span><span class="brand-cloudstack">cloudstack</span><sup class="brand-tm">™</sup>
+            <div class="brand-tagline">open source cloud computing</div>
+          </div>
+        </div>
       </div>
       <route-view></route-view>
     </div>
@@ -116,14 +118,76 @@ export default {
     }
   }
 
-  &-logo {
-    border-style: none;
-    margin: 0 auto 2rem;
-    display: block;
+  &-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 2rem;
 
     .mobile & {
-      max-width: 300px;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 1rem;
+    }
+  }
+
+  &-bariflo-logo {
+    height: 72px;
+    width: auto;
+    object-fit: contain;
+    border-style: none;
+    flex-shrink: 0;
+
+    .mobile & {
+      height: 48px;
+    }
+  }
+
+  &-brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+
+    .brand-apache {
+      font-size: 32px;
+      font-weight: 400;
+      color: #7b8794;
+      letter-spacing: -0.5px;
+      font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    }
+
+    .brand-cloudstack {
+      font-size: 32px;
+      font-weight: 700;
+      color: #4a90c4;
+      letter-spacing: -0.5px;
+      font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    }
+
+    .brand-tm {
+      font-size: 12px;
+      color: #7b8794;
+      vertical-align: super;
+      margin-left: 2px;
+    }
+
+    .brand-tagline {
+      font-size: 12px;
+      color: #9aaab8;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+      font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    }
+  }
+
+  &-logo {
+    border-style: none;
+    display: block;
+    flex-shrink: 0;
+
+    .mobile & {
+      max-width: 240px;
     }
   }
 

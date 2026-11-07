@@ -67,20 +67,25 @@
   }
 
   &.light {
-    background-color: #fff;
-    box-shadow: 2px 0px 8px 0px rgba(29, 35, 41, 0.05);
+    background-color: #002868;
+    box-shadow: 2px 0px 8px 0px rgba(0, 0, 0, 0.25);
 
     .logo {
-      background: #fff;
-      box-shadow: 1px 1px 0px 0px #e8e8e8;
+      background: #002868;
+      box-shadow: none;
 
       h1 {
-        color: unset;
+        color: #fff;
       }
     }
 
     .ant-menu-light {
+      background: #002868;
       border-right-color: transparent;
+
+      .ant-menu-item-selected {
+        background-color: #0b4ec7;
+      }
     }
   }
 

@@ -32,9 +32,10 @@ export default {
     {
       name: 'guestnetwork',
       title: 'label.guest.networks',
-      icon: 'apartment-outlined',
+      icon: 'global-outlined',
       docHelp: 'adminguide/networking_and_traffic.html#adding-an-additional-guest-network',
-      permission: ['listNetworks'],
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/IspNetworkView.vue'))),
       resourceType: 'Network',
       columns: () => {
         var fields = ['name', 'state', 'type', 'vpcname', 'cidr', 'ip6cidr', 'broadcasturi', 'domainpath']
@@ -279,11 +280,83 @@ export default {
       ]
     },
     {
+      name: 'ispnetwork',
+      title: 'label.isp.networks',
+      icon: 'wifi-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/IspNetworkView.vue')))
+    },
+    {
+      name: 'jionetwork',
+      hidden: true,
+      title: 'Jio Network',
+      icon: 'wifi-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Jio.vue')))
+    },
+    {
+      name: 'airtelnetwork',
+      hidden: true,
+      title: 'Airtel Network',
+      icon: 'wifi-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Airtel.vue')))
+    },
+    {
+      name: 'instances',
+      hidden: true,
+      title: 'Instances',
+      icon: 'cloud-server-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Instances.vue')))
+    },
+    {
+      name: 'networkarchitecture',
+      hidden: true,
+      title: 'Network Architecture',
+      icon: 'apartment-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Architecture.vue')))
+    },
+    {
+      name: 'incident',
+      hidden: true,
+      title: 'Incident Details',
+      icon: 'alert-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Incident.vue')))
+    },
+    {
+      name: 'generalnetwork',
+      hidden: true,
+      title: 'label.general.networks',
+      icon: 'global-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Airtel.vue')))
+    },
+    {
+      name: 'pingnetwork',
+      hidden: true,
+      title: 'label.ping.networks',
+      icon: 'share-alt-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Airtel.vue')))
+    },
+    {
+      name: 'localnetwork',
+      hidden: true,
+      title: 'label.local.networks',
+      icon: 'partition-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Airtel.vue')))
+    },
+    {
       name: 'vpc',
       title: 'label.vpc',
-      icon: 'deployment-unit-outlined',
+      icon: 'compass-outlined',
       docHelp: 'adminguide/networking_and_traffic.html#configuring-a-virtual-private-cloud',
-      permission: ['listVPCs'],
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/Airtel.vue'))),
       resourceType: 'Vpc',
       columns: () => {
         var fields = ['name', 'state', 'displaytext', 'cidr', 'account']
@@ -377,6 +450,7 @@ export default {
     },
     {
       name: 'securitygroups',
+      hidden: true,
       title: 'label.security.groups',
       icon: 'fire-outlined',
       docHelp: 'adminguide/networking_and_traffic.html#security-groups',
@@ -430,6 +504,7 @@ export default {
     },
     {
       name: 'vnfapp',
+      hidden: true,
       title: 'label.vnf.appliances',
       icon: 'gateway-outlined',
       permission: ['listVnfAppliances'],
@@ -845,9 +920,10 @@ export default {
     {
       name: 'publicip',
       title: 'label.public.ip.addresses',
-      icon: 'environment-outlined',
+      icon: 'clock-circle-outlined',
       docHelp: 'adminguide/networking_and_traffic.html#reserving-public-ip-addresses-and-vlans-for-accounts',
-      permission: ['listPublicIpAddresses'],
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/IspNetworkView.vue'))),
       searchFilters: ['ipaddress', 'zoneid', 'account', 'domainid', 'vlanid', 'tags'],
       resourceType: 'PublicIpAddress',
       columns: () => {
@@ -860,7 +936,6 @@ export default {
       },
       details: ['ipaddress', 'id', 'associatednetworkname', 'networkid', 'issourcenat', 'isstaticnat', 'virtualmachinename', 'vmipaddress', 'vlan', 'allocated', 'account', 'domain', 'zonename'],
       filters: ['allocated', 'reserved', 'free'],
-      component: shallowRef(() => import('@/views/network/PublicIpResource.vue')),
       tabs: [{
         name: 'details',
         component: shallowRef(defineAsyncComponent(() => import('@/components/view/DetailsTab.vue')))
@@ -964,6 +1039,7 @@ export default {
     },
     {
       name: 'asnumbers',
+      hidden: true,
       title: 'label.asnumbers',
       icon: 'partition-outlined',
       permission: ['listASNumbers'],
@@ -1076,8 +1152,9 @@ export default {
     {
       name: 's2svpn',
       title: 'label.site.to.site.vpn',
-      icon: 'lock-outlined',
-      permission: ['listVpnGateways'],
+      icon: 'aim-outlined',
+      permission: [],
+      component: shallowRef(defineAsyncComponent(() => import('@/views/network/IspNetworkView.vue'))),
       columns: ['publicip', 'account', 'domain'],
       details: ['publicip', 'account', 'domain'],
       actions: [
@@ -1102,6 +1179,7 @@ export default {
     },
     {
       name: 's2svpnconn',
+      hidden: true,
       title: 'label.site.to.site.vpn.connections',
       docHelp: 'adminguide/networking_and_traffic.html#setting-up-a-site-to-site-vpn-connection',
       icon: 'sync-outlined',
@@ -1145,6 +1223,7 @@ export default {
     },
     {
       name: 'acllist',
+      hidden: true,
       title: 'label.network.acls',
       icon: 'bars-outlined',
       docHelp: 'adminguide/networking_and_traffic.html#configuring-network-access-control-list',
@@ -1250,6 +1329,7 @@ export default {
     },
     {
       name: 'vpnuser',
+      hidden: true,
       title: 'label.vpn.users',
       icon: 'user-switch-outlined',
       permission: ['listVpnUsers'],
@@ -1303,6 +1383,7 @@ export default {
     },
     {
       name: 'vpncustomergateway',
+      hidden: true,
       title: 'label.vpncustomergatewayid',
       icon: 'lock-outlined',
       permission: ['listVpnCustomerGateways'],
@@ -1368,6 +1449,7 @@ export default {
     },
     {
       name: 'tungstenfabric',
+      hidden: true,
       title: 'label.tungsten.fabric',
       icon: shallowRef(tungsten),
       permission: ['listTungstenFabricProviders'],
@@ -1510,6 +1592,7 @@ export default {
     },
     {
       name: 'guestvlans',
+      hidden: true,
       title: 'label.guest.vlan',
       icon: 'folder-outlined',
       docHelp: 'conceptsandterminology/network_setup.html#vlan-allocation-example',
@@ -1531,6 +1614,7 @@ export default {
     },
     {
       name: 'ipv4subnets',
+      hidden: true,
       title: 'label.ipv4.subnets',
       icon: 'pic-center-outlined',
       permission: ['listIpv4SubnetsForGuestNetwork'],
@@ -1571,6 +1655,7 @@ export default {
     },
     {
       name: 'dnszone',
+      hidden: true,
       title: 'label.dns.zones',
       icon: 'apartment-outlined',
       permission: ['listDnsZones'],
@@ -1621,6 +1706,7 @@ export default {
     },
     {
       name: 'dnsserver',
+      hidden: true,
       title: 'label.dns.servers',
       icon: 'cloud-server-outlined',
       permission: ['listDnsServers'],

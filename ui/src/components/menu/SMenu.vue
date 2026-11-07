@@ -19,7 +19,7 @@
   <a-menu
       :mode="mode"
       :theme="theme"
-      :openKeys="openKeys"
+      v-model:openKeys="openKeys"
       v-model:selectedKeys="selectedKeys"
       @click="selectMenu"
       @openChange="onOpenChange"
@@ -45,7 +45,7 @@
                 v-else-if="children.meta.icon && Array.isArray(children.meta.icon)"
                 :icon="children.meta.icon"
                 class="anticon"
-                :style="[$store.getters.darkMode ? { color: 'rgba(255, 255, 255, 0.65)' } : { color: '#888' }]" />
+                :style="{ color: '#ffffff' }" />
               <render-icon v-else :svgIcon="children.meta.icon" />
               <span>{{ $t(children.meta.title) }}</span>
             </router-link>
@@ -62,7 +62,7 @@
             v-else-if="item.meta.icon && Array.isArray(item.meta.icon)"
             :icon="item.meta.icon"
             class="anticon"
-            :style="[$store.getters.darkMode ? { color: 'rgba(255, 255, 255, 0.65)' } : { color: '#888' }]"
+            :style="{ color: '#ffffff' }"
             @click="() => { handleClickParentMenu(item) }" />
           <span>{{ $t(item.meta.title) }}</span>
         </router-link>
@@ -126,31 +126,110 @@ export default {
     }
   },
   methods: {
+    isNetworkRoute (path) {
+      const p = path || this.$route.path
+      const networkRoutes = [
+        '/network',
+        '/guestnetwork',
+        '/ispnetwork',
+        '/ispnetworks',
+        '/jionetwork',
+        '/airtelnetwork',
+        '/jio',
+        '/airtel',
+        '/instances',
+        '/generalnetwork',
+        '/pingnetwork',
+        '/localnetwork',
+        '/vpc',
+        '/publicip',
+        '/s2svpn'
+      ]
+      return networkRoutes.some(item => p === item || p.startsWith(item + '/') || p.startsWith(item + '?'))
+    },
+    getNetworkActiveKey (path) {
+      const p = path || this.$route.path
+      const q = this.$route.query || {}
+      const cat = (q.category || '').toLowerCase()
+
+      if (p.startsWith('/generalnetwork')) return '/generalnetwork'
+      if (p.startsWith('/pingnetwork')) return '/pingnetwork'
+      if (p.startsWith('/localnetwork')) return '/localnetwork'
+      if (p.startsWith('/vpc')) return '/vpc'
+
+      if (p.startsWith('/jionetwork') || p.startsWith('/airtelnetwork') || p.startsWith('/jio') || p.startsWith('/airtel')) {
+        if (cat === 'ping') return '/pingnetwork'
+        if (cat === 'local') return '/localnetwork'
+        if (cat === 'global' || cat === 'vpc') return '/vpc'
+        if (cat === 'general') return '/generalnetwork'
+        return '/generalnetwork'
+      }
+
+      if (p.startsWith('/instances')) {
+        const type = (q.type || '').toLowerCase()
+        if (type.includes('ping')) return '/pingnetwork'
+        if (type.includes('local')) return '/localnetwork'
+        if (type.includes('vpc') || type.includes('global')) return '/vpc'
+        return '/generalnetwork'
+      }
+
+      if (p.startsWith('/guestnetwork')) return '/guestnetwork'
+      if (p.startsWith('/ispnetwork') || p.startsWith('/ispnetworks')) return '/ispnetwork'
+      if (p.startsWith('/publicip')) return '/publicip'
+      if (p.startsWith('/s2svpn')) return '/s2svpn'
+      return null
+    },
     selectMenu (obj) {
       this.selectedKeys = [obj.key]
+      if (this.isNetworkRoute(obj.key) && !this.openKeys.includes('/network')) {
+        this.openKeys = [...this.openKeys, '/network']
+        this.cachedOpenKeys = this.openKeys
+      }
     },
     onOpenChange (openKeys) {
       const latestOpenKey = openKeys.find(key => this.openKeys.indexOf(key) === -1)
+      let nextOpenKeys = []
       if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-        this.openKeys = openKeys
+        nextOpenKeys = openKeys
       } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
+        nextOpenKeys = latestOpenKey ? [latestOpenKey] : []
       }
+
+      if (this.isNetworkRoute() && !nextOpenKeys.includes('/network')) {
+        nextOpenKeys.push('/network')
+      }
+
+      this.openKeys = nextOpenKeys
+      this.cachedOpenKeys = nextOpenKeys
     },
     updateMenu () {
+      if (this.isNetworkRoute()) {
+        const activeKey = this.getNetworkActiveKey() || '/guestnetwork'
+        this.selectedKeys = [activeKey]
+        const openKeys = ['/network']
+        this.cachedPath = activeKey
+        this.cachedOpenKeys = openKeys
+        if (!this.collapsed) {
+          this.openKeys = openKeys
+        }
+        return
+      }
+
       const routes = this.$route.matched.concat()
 
       if (routes.length >= 4 && this.$route.meta.hidden) {
         routes.pop()
         this.selectedKeys = [routes[2].path]
-      } else {
+      } else if (routes.length > 0) {
         this.selectedKeys = [routes.pop().path]
       }
 
       const openKeys = []
       if (this.mode === 'inline') {
         routes.forEach(item => {
-          openKeys.push(item.path)
+          if (this.rootSubmenuKeys.includes(item.path)) {
+            openKeys.push(item.path)
+          }
         })
       }
 

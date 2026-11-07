@@ -211,9 +211,85 @@ export function asyncRouterMap () {
         name: 'dashboard',
         meta: {
           title: 'label.dashboard',
-          icon: 'DashboardOutlined'
+          icon: 'HomeOutlined'
         },
         component: () => import('@/views/dashboard/Dashboard')
+      },
+      {
+        path: '/ispnetworks',
+        name: 'ispnetworks',
+        hidden: true,
+        redirect: '/ispnetwork'
+      },
+      {
+        path: '/jionetwork',
+        name: 'jionetwork',
+        hidden: true,
+        meta: {
+          title: 'Jio Network',
+          icon: 'wifi-outlined'
+        },
+        component: () => import('@/views/network/Jio.vue')
+      },
+      {
+        path: '/airtelnetwork',
+        name: 'airtelnetwork',
+        hidden: true,
+        meta: {
+          title: 'Airtel Network',
+          icon: 'wifi-outlined'
+        },
+        component: () => import('@/views/network/Airtel.vue')
+      },
+      {
+        path: '/jio',
+        redirect: '/jionetwork',
+        hidden: true
+      },
+      {
+        path: '/airtel',
+        redirect: '/airtelnetwork',
+        hidden: true
+      },
+      {
+        path: '/instances',
+        name: 'instances',
+        hidden: true,
+        meta: {
+          title: 'Instances',
+          icon: 'cloud-server-outlined'
+        },
+        component: () => import('@/views/network/Instances.vue')
+      },
+      {
+        path: '/network/instances',
+        redirect: '/instances',
+        hidden: true
+      },
+      {
+        path: '/networkarchitecture',
+        name: 'networkarchitecture',
+        hidden: true,
+        meta: {
+          title: 'Network Architecture',
+          icon: 'apartment-outlined'
+        },
+        component: () => import('@/views/network/Architecture.vue')
+      },
+      {
+        path: '/architecture',
+        redirect: '/networkarchitecture',
+        hidden: true
+      },
+      {
+        path: '/incident',
+        name: 'incident',
+        hidden: true,
+        meta: {
+          title: 'Incident Details',
+          icon: 'alert-outlined'
+        },
+        component: () => import('@/views/network/Incident.vue')
       },
 
       generateRouterMap(compute),

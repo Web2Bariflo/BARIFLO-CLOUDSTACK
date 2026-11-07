@@ -35,7 +35,7 @@ const isoActionAvailable = (record) =>
 export default {
   name: 'compute',
   title: 'label.compute',
-  icon: 'cloud-outlined',
+  icon: 'setting-outlined',
   children: [
     {
       name: 'vm',

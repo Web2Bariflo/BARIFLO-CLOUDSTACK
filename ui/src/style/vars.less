@@ -114,6 +114,12 @@ a {
   background: @navigation-background-color;
 }
 
+.sider {
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #0b4ec7;
+  }
+}
+
 .ant-menu-submenu-popup {
   left: 83px !important;
 }
@@ -121,6 +127,17 @@ a {
 .ant-menu-submenu-popup.ant-menu-light,
 .ant-menu-light > .ant-menu {
   background: @navigation-background-color;
+
+  .ant-menu-item-selected {
+    background-color: #387cf6 !important;
+    color: #ffffff !important;
+
+    > a,
+    span,
+    .anticon {
+      color: #ffffff !important;
+    }
+  }
 }
 
 .ant-menu-item > a

@@ -33,7 +33,7 @@ import managementServers from '@/config/section/infra/managementServers'
 export default {
   name: 'infra',
   title: 'label.infrastructure',
-  icon: 'BankOutlined',
+  icon: 'cluster-outlined',
   permission: ['listInfrastructure'],
   children: [
     {

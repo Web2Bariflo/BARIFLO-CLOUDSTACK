@@ -129,6 +129,9 @@ const err = (error) => {
       router.push({ path: '/exception/404' })
     }
   }
+  if (axios.isCancel(error)) {
+    return Promise.reject(error)
+  }
   if (error.isAxiosError && !error.response) {
     countNotify++
     store.commit('SET_COUNT_NOTIFY', countNotify)

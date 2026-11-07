@@ -20,7 +20,7 @@ import store from '@/store'
 export default {
   name: 'event',
   title: 'label.events',
-  icon: 'ScheduleOutlined',
+  icon: 'calendar-outlined',
   docHelp: 'adminguide/events.html',
   permission: ['listEvents'],
   columns: () => {

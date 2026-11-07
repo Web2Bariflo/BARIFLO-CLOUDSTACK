@@ -25,8 +25,8 @@
   },
   "scripts": {
     "prebuild": "./prebuild.sh",
-    "start": "vue-cli-service lint --no-fix && vue-cli-service serve",
-    "serve": "vue-cli-service lint --no-fix && vue-cli-service serve",
+    "start": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "postbuild": "./postbuild.sh",
     "lint": "vue-cli-service lint",

@@ -23,7 +23,7 @@ import kubernetesIcon from '@/assets/icons/kubernetes.svg?inline'
 export default {
   name: 'image',
   title: 'label.images',
-  icon: 'picture-outlined',
+  icon: 'camera-outlined',
   docHelp: 'adminguide/templates.html',
   children: [
     {

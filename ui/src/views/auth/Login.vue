@@ -111,46 +111,6 @@
           </a-input>
         </a-form-item>
       </a-tab-pane>
-      <a-tab-pane key="saml" :disabled="idps.length === 0">
-        <template #tab>
-          <span>
-            <audit-outlined />
-            {{ $t('label.login.single.signon') }}
-          </span>
-        </template>
-        <a-form-item v-if="$config.multipleServer" name="server" ref="server">
-          <a-select
-            size="large"
-            :placeholder="$t('server')"
-            v-model:value="form.server"
-            @change="onChangeServer"
-            showSearch
-            optionFilterProp="label"
-            :filterOption="(input, option) => {
-              return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }" >
-            <a-select-option v-for="item in $config.servers" :key="(item.apiHost || '') + item.apiBase" :label="item.name">
-              <template #prefix>
-                <database-outlined />
-              </template>
-              {{ item.name }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item name="idp" ref="idp">
-          <a-select
-            v-model:value="form.idp"
-            showSearch
-            optionFilterProp="label"
-            :filterOption="(input, option) => {
-              return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }" >
-            <a-select-option v-for="(idp, idx) in idps" :key="idx" :value="idp.id" :label="idp.orgName">
-              {{ idp.orgName }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-      </a-tab-pane>
       <a-tab-pane key="oauth" :disabled="!socialLogin">
         <template #tab>
           <span style="display: inline-flex; align-items: center; gap: 4px; color: inherit;">

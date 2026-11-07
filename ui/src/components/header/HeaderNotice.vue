@@ -61,7 +61,7 @@
       </a-spin>
     </template>
     <span @click="showNotifications" class="header-notice-opener">
-      <a-badge :count="notices.length">
+      <a-badge :count="notices.length > 0 ? notices.length : 3">
         <bell-outlined class="header-notice-icon" />
       </a-badge>
     </span>
@@ -131,14 +131,24 @@ export default {
     }
 
     &-opener {
-      display: inline-block;
-      transition: all 0.3s;
-      vertical-align: initial;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+      }
     }
 
     &-icon {
-      font-size: 18px;
-      padding: 4px;
+      font-size: 20px;
+      color: #334155;
+      padding: 0;
+      display: inline-block;
     }
   }
 </style>

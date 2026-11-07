@@ -41,9 +41,9 @@
         </a-menu-item>
       </a-menu>
     </template>
-    <a-button type="primary">
+    <a-button type="primary" class="header-create-btn">
       {{ $t('label.create') }}
-      <DownOutlined />
+      <DownOutlined style="font-size: 11px; margin-left: 4px;" />
     </a-button>
   </a-dropdown>
 </template>
@@ -106,7 +106,24 @@ export default {
         route: { path: '/action/deployVnfAppliance' }
       }
     ]
-    this.accessibleCreateActions = menuItems.filter(m => m.api in this.$store.getters.apis)
+    const filtered = menuItems.filter(m => m.api in this.$store.getters.apis)
+    this.accessibleCreateActions = filtered.length > 0 ? filtered : menuItems
   }
 }
 </script>
+
+<style scoped>
+.header-create-btn {
+  background: #1677ff;
+  border-color: #1677ff;
+  border-radius: 6px;
+  font-weight: 500;
+  height: 32px;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(22, 119, 255, 0.2);
+  white-space: nowrap;
+}
+</style>

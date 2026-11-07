@@ -17,28 +17,24 @@
 
 <template>
   <div class="user-menu">
-    <span class="action">
+    <span class="action create-action">
       <create-menu v-if="device === 'desktop'" />
     </span>
-    <external-link class="action"/>
-    <translation-menu class="action"/>
-    <header-notice class="action"/>
+    <header-notice class="action notice-action"/>
     <label class="user-menu-server-info action" v-if="$config.multipleServer">
       <database-outlined />
       {{ server.name || server.apiBase || 'Local-Server' }}
     </label>
     <a-dropdown>
-      <span class="user-menu-dropdown action">
+      <span class="user-menu-dropdown action user-action">
         <span v-if="image">
           <resource-icon :image="image" size="4x" style="margin-right: 5px; margin-top: -3px"/>
         </span>
-        <a-avatar v-else-if="userInitials" class="user-menu-avatar avatar" size="small" :style="{ backgroundColor: $config.theme['@primary-color'], color: 'white' }">
-          {{ userInitials }}
+        <a-avatar v-else class="user-menu-avatar avatar" size="small">
+          {{ userInitials || 'AC' }}
         </a-avatar>
-        <a-avatar v-else class="user-menu-avatar avatar" size="small" :style="{ backgroundColor: $config.theme['@primary-color'], color: 'white' }">
-          <template #icon><user-outlined /></template>
-        </a-avatar>
-        <span>{{ nickname() }}</span>
+        <span class="user-name-text">{{ nickname() || 'admin cloud' }}</span>
+        <down-outlined class="user-chevron-icon" />
       </span>
       <template #overlay>
         <a-menu class="user-menu-wrapper" @click="handleClickMenu">
@@ -107,8 +103,10 @@ export default {
     }
   },
   created () {
-    this.userInitials = (this.$store.getters.userInfo.firstname.toUpperCase().charAt(0) || '') +
-      (this.$store.getters.userInfo.lastname.toUpperCase().charAt(0) || '')
+    const user = this.$store.getters.userInfo || {}
+    const fn = (user.firstname ? user.firstname.toUpperCase().charAt(0) : '') || 'A'
+    const ln = (user.lastname ? user.lastname.toUpperCase().charAt(0) : '') || 'C'
+    this.userInitials = fn + ln
     this.getIcon()
     eventBus.on('refresh-header', () => {
       this.getIcon()
@@ -201,6 +199,89 @@ export default {
 
 <style lang="less" scoped>
 .user-menu {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
+  gap: 16px;
+  float: none !important;
+  height: 64px;
+  padding: 0 4px;
+
+  .action {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+    height: auto !important;
+    padding: 0 !important;
+    cursor: pointer;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    line-height: normal !important;
+  }
+
+  .create-action {
+    display: inline-flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  .notice-action {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 2px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .user-action {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px;
+    padding: 4px 8px !important;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  .user-menu-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    background-color: #1677ff !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  .user-name-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .user-chevron-icon {
+    font-size: 11px;
+    color: #64748b;
+    margin-left: 2px;
+  }
+
   &-wrapper {
     padding: 4px 0;
   }
